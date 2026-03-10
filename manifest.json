@@ -17,6 +17,9 @@
   "background": {
     "service_worker": "extension/background/service-worker.js"
   },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self';"
+  },
   "action": {
     "default_title": "Reddit Parser",
     "default_popup": "extension/popup/popup.html"

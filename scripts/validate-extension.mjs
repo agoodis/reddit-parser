@@ -27,6 +27,13 @@ if (manifest.manifest_version !== 3) {
   throw new Error("Expected manifest_version 3");
 }
 
+if (
+  manifest.content_security_policy?.extension_pages !==
+  "script-src 'self' 'wasm-unsafe-eval'; object-src 'self';"
+) {
+  throw new Error("Manifest must explicitly enable wasm-unsafe-eval for extension_pages");
+}
+
 if (!Array.isArray(manifest.permissions) || !manifest.permissions.includes("downloads")) {
   throw new Error("Manifest is missing the downloads permission");
 }

@@ -172,7 +172,8 @@ async function writeStoredDbBuffer(bytes) {
 async function getSqlEngine() {
   if (!sqlEnginePromise) {
     sqlEnginePromise = initSqlJs({
-      locateFile: (fileName) => chrome.runtime.getURL(`vendor/${fileName}`)
+      // The manifest lives at repository root, while the sql.js assets stay in extension/vendor.
+      locateFile: (fileName) => chrome.runtime.getURL(`extension/vendor/${fileName}`)
     });
   }
 
