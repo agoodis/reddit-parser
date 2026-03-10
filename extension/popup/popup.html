@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Reddit Parser</title>
+    <link rel="stylesheet" href="popup.css">
+  </head>
+  <body>
+    <main class="popup-shell">
+      <p class="eyebrow">Local SQLite capture</p>
+      <h1>Reddit Parser</h1>
+      <p class="lede">
+        Tracks visible posts on Reddit pages and stores them in a local SQLite database.
+      </p>
+
+      <section class="stats-grid" aria-label="Capture statistics">
+        <article class="stat-card">
+          <span class="stat-label">Posts</span>
+          <strong id="total-posts" class="stat-value">0</strong>
+        </article>
+        <article class="stat-card">
+          <span class="stat-label">Snapshots</span>
+          <strong id="total-snapshots" class="stat-value">0</strong>
+        </article>
+        <article class="stat-card">
+          <span class="stat-label">Monitored</span>
+          <strong id="settings-count" class="stat-value">0</strong>
+        </article>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header">
+          <h2>Recent capture</h2>
+          <span id="last-seen-at" class="pill">No data yet</span>
+        </div>
+        <ul id="subreddit-breakdown" class="subreddit-list">
+          <li class="empty-state">No captured posts yet.</li>
+        </ul>
+      </section>
+
+      <section class="actions">
+        <button id="export-button" class="primary-button" type="button">
+          Export .sqlite
+        </button>
+        <button id="options-button" class="secondary-button" type="button">
+          Edit subreddits
+        </button>
+        <button id="clear-button" class="ghost-button" type="button">
+          Clear DB
+        </button>
+      </section>
+
+      <p id="status" class="status-message" aria-live="polite"></p>
+    </main>
+
+    <script src="popup.js"></script>
+  </body>
+</html>

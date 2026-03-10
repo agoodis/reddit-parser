@@ -1,0 +1,19 @@
+globalThis.DEFAULT_SUBREDDITS = Object.freeze([
+  "BORUpdates",
+  "BestofRedditorUpdates",
+  "AmItheAsshole",
+  "AmItheButtface",
+  "relationship_advice",
+  "relationships",
+  "Marriage",
+  "TrueOffMyChest",
+  "MaliciousCompliance",
+  "ProRevenge",
+  "coworkerstories",
+  "talesfromtechsupport",
+  "legaladvice",
+  "Ratschlag",
+  "UnresolvedMysteries",
+  "WithoutATrace",
+  "UnsolvedCrime"
+]);

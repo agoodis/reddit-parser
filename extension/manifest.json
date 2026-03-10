@@ -1,0 +1,39 @@
+{
+  "manifest_version": 3,
+  "name": "Reddit Parser",
+  "version": "0.1.0",
+  "description": "Capture Reddit post metadata from selected subreddits into a local SQLite database.",
+  "permissions": [
+    "storage",
+    "downloads",
+    "unlimitedStorage"
+  ],
+  "host_permissions": [
+    "https://www.reddit.com/*",
+    "https://new.reddit.com/*",
+    "https://old.reddit.com/*",
+    "https://reddit.com/*"
+  ],
+  "background": {
+    "service_worker": "background/service-worker.js"
+  },
+  "action": {
+    "default_title": "Reddit Parser",
+    "default_popup": "popup/popup.html"
+  },
+  "options_page": "options/options.html",
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.reddit.com/*",
+        "https://new.reddit.com/*",
+        "https://old.reddit.com/*",
+        "https://reddit.com/*"
+      ],
+      "js": [
+        "content/content-script.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}

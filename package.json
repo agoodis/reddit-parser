@@ -1,0 +1,14 @@
+{
+  "name": "reddit-parser",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Chrome extension that captures Reddit posts from selected subreddits into a local SQLite database.",
+  "scripts": {
+    "build:vendor": "node scripts/sync-sqljs.mjs",
+    "check": "node scripts/validate-extension.mjs",
+    "postinstall": "node scripts/sync-sqljs.mjs"
+  },
+  "dependencies": {
+    "sql.js": "1.14.1"
+  }
+}
