@@ -538,7 +538,6 @@ async function capturePosts(rawPosts, pageUrl) {
         };
       }
       lastSnapshotStatement.reset();
-      lastSnapshotStatement.clearBindings();
 
       if (shouldWriteSnapshot(latestSnapshot, record, nowIso)) {
         snapshotStatement.run([
