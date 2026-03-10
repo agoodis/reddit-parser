@@ -50,6 +50,12 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
           filename: await exportDatabase()
         });
         break;
+      case "exportPostsCsv":
+        sendResponse({
+          ok: true,
+          filename: await exportPostsCsv()
+        });
+        break;
       case "clearDatabase":
         await clearDatabase();
         sendResponse({ ok: true });
@@ -637,6 +643,58 @@ async function exportDatabase() {
   return filename;
 }
 
+async function exportPostsCsv() {
+  const database = await getDatabase();
+  const rows = readRows(database, `
+    SELECT
+      post_id,
+      subreddit,
+      title,
+      author,
+      permalink,
+      post_url,
+      created_at,
+      score,
+      comment_count,
+      body_text,
+      flair,
+      page_url,
+      first_seen_at,
+      last_seen_at
+    FROM posts
+    ORDER BY last_seen_at DESC, id DESC
+  `);
+  const csv = buildCsv(rows, [
+    "post_id",
+    "subreddit",
+    "title",
+    "author",
+    "permalink",
+    "post_url",
+    "created_at",
+    "score",
+    "comment_count",
+    "body_text",
+    "flair",
+    "page_url",
+    "first_seen_at",
+    "last_seen_at"
+  ]);
+  const bytes = new TextEncoder().encode(`\uFEFF${csv}`);
+  const url = `data:text/csv;charset=utf-8;base64,${uint8ArrayToBase64(bytes)}`;
+  const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
+  const filename = `reddit-parser-posts-${timestamp}.csv`;
+
+  await downloadFile({
+    url,
+    filename,
+    saveAs: true,
+    conflictAction: "uniquify"
+  });
+
+  return filename;
+}
+
 async function clearDatabase() {
   await replaceDatabase((SQL) => new SQL.Database());
 }
@@ -651,4 +709,23 @@ function uint8ArrayToBase64(bytes) {
   }
 
   return btoa(binary);
+}
+
+function buildCsv(rows, columns) {
+  const header = columns.join(",");
+  const body = rows.map((row) => columns.map((column) => escapeCsvValue(row[column])).join(","));
+  return [header, ...body].join("\r\n");
+}
+
+function escapeCsvValue(value) {
+  if (value === null || value === undefined) {
+    return "";
+  }
+
+  const text = String(value);
+  if (!/[",\r\n]/.test(text)) {
+    return text;
+  }
+
+  return `"${text.replace(/"/g, "\"\"")}"`;
 }

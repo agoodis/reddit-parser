@@ -4,6 +4,7 @@ const settingsCountElement = document.getElementById("settings-count");
 const lastSeenAtElement = document.getElementById("last-seen-at");
 const subredditBreakdownElement = document.getElementById("subreddit-breakdown");
 const exportButton = document.getElementById("export-button");
+const exportCsvButton = document.getElementById("export-csv-button");
 const optionsButton = document.getElementById("options-button");
 const clearButton = document.getElementById("clear-button");
 const statusElement = document.getElementById("status");
@@ -16,6 +17,14 @@ exportButton.addEventListener("click", async () => {
   await withBusyState(exportButton, async () => {
     setStatus("Preparing SQLite export...");
     const response = await sendMessage({ type: "exportDatabase" });
+    setStatus(`Saved ${response.filename}`);
+  });
+});
+
+exportCsvButton.addEventListener("click", async () => {
+  await withBusyState(exportCsvButton, async () => {
+    setStatus("Preparing posts CSV export...");
+    const response = await sendMessage({ type: "exportPostsCsv" });
     setStatus(`Saved ${response.filename}`);
   });
 });

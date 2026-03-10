@@ -8,7 +8,7 @@ Chrome extension for collecting Reddit post metadata from selected subreddits in
 - Captures visible posts from monitored subreddits.
 - Stores data in a real SQLite database powered by `sql.js`.
 - Keeps both the latest `posts` table and a `capture_snapshots` history table for score/comment changes over time.
-- Exports the database as a `.sqlite` file for downstream analysis in Python, DuckDB, SQLite CLI, Datasette, or DB Browser for SQLite.
+- Exports the database as a `.sqlite` file and the current `posts` table as `.csv` for downstream analysis in Python, DuckDB, SQLite CLI, Datasette, or DB Browser for SQLite.
 
 Captured fields include:
 
@@ -84,7 +84,7 @@ scripts/
 1. Browse Reddit pages such as `https://www.reddit.com/r/BestofRedditorUpdates/`.
 2. As posts appear in the page, the content script extracts their visible metadata.
 3. Open the extension popup to see capture stats.
-4. Click `Export .sqlite` to download the current database.
+4. Click `Export .sqlite` to download the full database, or `Export posts CSV` to download the latest `posts` table as CSV.
 
 ## Database schema
 
@@ -95,6 +95,11 @@ Latest known state for each captured post.
 ### `capture_snapshots`
 
 Periodic snapshots of score and comment counts. A new snapshot is saved when values change or when the post is seen again after a 6 hour gap.
+
+## Export formats
+
+- `.sqlite` contains both `posts` and `capture_snapshots`.
+- `.csv` contains the latest `posts` rows only.
 
 ## Notes and limits
 
