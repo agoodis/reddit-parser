@@ -622,27 +622,33 @@ async function exportDatabase() {
   const database = await getDatabase();
   await persistDatabase(database);
 
-  const blob = new Blob([database.export()], { type: "application/vnd.sqlite3" });
-  const url = URL.createObjectURL(blob);
+  const bytes = database.export();
+  const url = `data:application/vnd.sqlite3;base64,${uint8ArrayToBase64(bytes)}`;
   const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
   const filename = `reddit-parser-${timestamp}.sqlite`;
 
-  try {
-    await downloadFile({
-      url,
-      filename,
-      saveAs: true,
-      conflictAction: "uniquify"
-    });
-  } finally {
-    setTimeout(() => {
-      URL.revokeObjectURL(url);
-    }, 60_000);
-  }
+  await downloadFile({
+    url,
+    filename,
+    saveAs: true,
+    conflictAction: "uniquify"
+  });
 
   return filename;
 }
 
 async function clearDatabase() {
   await replaceDatabase((SQL) => new SQL.Database());
+}
+
+function uint8ArrayToBase64(bytes) {
+  const chunkSize = 0x8000;
+  let binary = "";
+
+  for (let index = 0; index < bytes.length; index += chunkSize) {
+    const chunk = bytes.subarray(index, index + chunkSize);
+    binary += String.fromCharCode(...chunk);
+  }
+
+  return btoa(binary);
 }
