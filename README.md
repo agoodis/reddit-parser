@@ -75,7 +75,7 @@ scripts/
    - Open `chrome://extensions`
    - Enable Developer mode
    - Click Load unpacked
-   - Select the `extension/` folder from this repository
+   - Select the repository root folder, the one that contains `manifest.json`
 
 3. Optional: open the options page and edit the subreddit list.
 

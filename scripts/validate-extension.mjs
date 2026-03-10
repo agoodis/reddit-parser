@@ -6,7 +6,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, "..");
 const extensionDir = path.join(rootDir, "extension");
-const manifestPath = path.join(extensionDir, "manifest.json");
+const manifestPath = path.join(rootDir, "manifest.json");
 
 const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
 const requiredPaths = [
@@ -14,13 +14,13 @@ const requiredPaths = [
   manifest.action?.default_popup,
   manifest.options_page,
   ...(manifest.content_scripts ?? []).flatMap((entry) => entry.js ?? []),
-  "shared/default-subreddits.js",
-  "vendor/sql-wasm.js",
-  "vendor/sql-wasm.wasm"
+  "extension/shared/default-subreddits.js",
+  "extension/vendor/sql-wasm.js",
+  "extension/vendor/sql-wasm.wasm"
 ].filter(Boolean);
 
 for (const relativePath of requiredPaths) {
-  await access(path.join(extensionDir, relativePath));
+  await access(path.join(rootDir, relativePath));
 }
 
 if (manifest.manifest_version !== 3) {

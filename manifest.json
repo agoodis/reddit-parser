@@ -15,13 +15,13 @@
     "https://reddit.com/*"
   ],
   "background": {
-    "service_worker": "background/service-worker.js"
+    "service_worker": "extension/background/service-worker.js"
   },
   "action": {
     "default_title": "Reddit Parser",
-    "default_popup": "popup/popup.html"
+    "default_popup": "extension/popup/popup.html"
   },
-  "options_page": "options/options.html",
+  "options_page": "extension/options/options.html",
   "content_scripts": [
     {
       "matches": [
@@ -31,7 +31,7 @@
         "https://reddit.com/*"
       ],
       "js": [
-        "content/content-script.js"
+        "extension/content/content-script.js"
       ],
       "run_at": "document_idle"
     }
